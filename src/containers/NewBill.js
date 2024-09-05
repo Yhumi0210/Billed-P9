@@ -69,87 +69,87 @@ export default class NewBill {
       }).catch(error => console.error(error))
   }
 
-  // handleSubmit = e => {
-  //   e.preventDefault()
-  //   console.log("handleSubmit called");
-  //
-  //   const user = localStorage.getItem("user");
-  //   console.log("LocalStorage user:", user);
-  //
-  //   const email = JSON.parse(localStorage.getItem("user")).email
-  //   const bill = {
-  //     email,
-  //     type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
-  //     name:  e.target.querySelector(`input[data-testid="expense-name"]`).value,
-  //     amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
-  //     date:  e.target.querySelector(`input[data-testid="datepicker"]`).value,
-  //     vat: e.target.querySelector(`input[data-testid="vat"]`).value,
-  //     pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
-  //     commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
-  //     fileUrl: this.fileUrl,
-  //     fileName: this.fileName,
-  //     status: 'pending'
-  //   }
-  //   console.log("Bill to be created:", bill);
-  //   this.updateBill(bill)
-  //   console.log("update called");
-  //   this.onNavigate(ROUTES_PATH['Bills'])
-  // }
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = e => {
+    e.preventDefault()
     console.log("handleSubmit called");
 
-    try {
-      // Récupère les données brutes de `localStorage`
-      const userString = localStorage.getItem("user");
-      console.log("LocalStorage user:", userString);
+    const user = localStorage.getItem("user");
+    console.log("LocalStorage user:", user);
 
-      // Teste si `userString` est bien une chaîne JSON
-      let parsedUser;
-      if (typeof userString === 'string') {
-        parsedUser = JSON.parse(userString);
-        console.log("Parsed user:", parsedUser);
-
-        // Vérifie que `parsedUser` est un objet et non une chaîne
-        if (typeof parsedUser === 'object' && parsedUser !== null) {
-          const email = parsedUser.email;
-          console.log("Parsed user email:", email);
-
-          if (!email) {
-            console.error("Email is undefined or empty");
-            return;
-          }
-
-          const bill = {
-            email,
-            type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
-            name: e.target.querySelector(`input[data-testid="expense-name"]`).value,
-            amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
-            date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
-            vat: e.target.querySelector(`input[data-testid="vat"]`).value,
-            pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
-            commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
-            fileUrl: this.fileUrl,
-            fileName: this.fileName,
-            status: 'pending'
-          };
-          console.log("Bill to be created:", bill);
-
-          this.updateBill(bill)
-              .then(() => {
-                console.log("update called");
-              })
-              .catch(error => console.error("Error updating bill:", error));
-        } else {
-          console.error("Parsed user is not an object after JSON.parse:", parsedUser);
-        }
-      } else {
-        console.error("userString is not a string:", userString);
-      }
-    } catch (error) {
-      console.error("Error handling submit:", error);
+    const email = JSON.parse(localStorage.getItem("user")).email
+    const bill = {
+      email,
+      type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
+      name:  e.target.querySelector(`input[data-testid="expense-name"]`).value,
+      amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
+      date:  e.target.querySelector(`input[data-testid="datepicker"]`).value,
+      vat: e.target.querySelector(`input[data-testid="vat"]`).value,
+      pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
+      commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
+      fileUrl: this.fileUrl,
+      fileName: this.fileName,
+      status: 'pending'
     }
+    console.log("Bill to be created:", bill);
+    this.updateBill(bill)
+    console.log("update called");
+    this.onNavigate(ROUTES_PATH['Bills'])
   }
+  // handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("handleSubmit called");
+  //
+  //   try {
+  //     // Récupère les données brutes de `localStorage`
+  //     const userString = localStorage.getItem("user");
+  //     console.log("LocalStorage user:", userString);
+  //
+  //     // Teste si `userString` est bien une chaîne JSON
+  //     let parsedUser;
+  //     if (typeof userString === 'string') {
+  //       parsedUser = JSON.parse(userString);
+  //       console.log("Parsed user:", parsedUser);
+  //
+  //       // Vérifie que `parsedUser` est un objet et non une chaîne
+  //       if (typeof parsedUser === 'object' && parsedUser !== null) {
+  //         const email = parsedUser.email;
+  //         console.log("Parsed user email:", email);
+  //
+  //         if (!email) {
+  //           console.error("Email is undefined or empty");
+  //           return;
+  //         }
+  //
+  //         const bill = {
+  //           email,
+  //           type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
+  //           name: e.target.querySelector(`input[data-testid="expense-name"]`).value,
+  //           amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
+  //           date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
+  //           vat: e.target.querySelector(`input[data-testid="vat"]`).value,
+  //           pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
+  //           commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
+  //           fileUrl: this.fileUrl,
+  //           fileName: this.fileName,
+  //           status: 'pending'
+  //         };
+  //         console.log("Bill to be created:", bill);
+  //
+  //         this.updateBill(bill)
+  //             .then(() => {
+  //               console.log("update called");
+  //             })
+  //             .catch(error => console.error("Error updating bill:", error));
+  //       } else {
+  //         console.error("Parsed user is not an object after JSON.parse:", parsedUser);
+  //       }
+  //     } else {
+  //       console.error("userString is not a string:", userString);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error handling submit:", error);
+  //   }
+  // }
 
   // not need to cover this function by tests
   updateBill = (bill) => {
