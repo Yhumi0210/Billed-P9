@@ -126,7 +126,7 @@ describe("Given I am connected as an employee", () => {
       expect(fileInput.value).toBe("");
     });
   });
-
+// POST TESTS
   describe("When I have entered all the necessary fields and pressed the send button", () => {
     test("Then handleSubmit should update a new bill and navigate to Bills page", async () => {
       const html = NewBillUI();
@@ -160,56 +160,10 @@ describe("Given I am connected as an employee", () => {
       form.addEventListener("submit", newBill.handleSubmit);
       fireEvent.submit(form);
 
-      // Vérifications
+      // Vérifie que la fonction `update` a été appelée
       await new Promise(process.nextTick);
 
       expect(updateSpy).toHaveBeenCalled();
-      expect(onNavigate).toHaveBeenCalledWith(ROUTES_PATH['Bills']);
-    });
-  });
-
-  // POST TESTS
-  describe("When I have entered all the necessary fields and pressed the send button", () => {
-    test("Then handleSubmit should update a new bill and navigate to Bills page", async () => {
-      const html = NewBillUI();
-      document.body.innerHTML = html;
-
-      const onNavigate = jest.fn();
-      const newBill = new NewBill({
-        document,
-        onNavigate,
-        store: mockStore,
-        localStorage: window.localStorage
-      });
-
-      newBill.fileUrl = "https://url/to/file.png";
-      newBill.fileName = "file.png";
-
-      // Rempli le formulaire
-      fireEvent.change(screen.getByTestId('expense-type'), { target: { value: "Transport" } });
-      fireEvent.change(screen.getByTestId('expense-name'), { target: { value: "Train ticket" } });
-      fireEvent.change(screen.getByTestId('amount'), { target: { value: 50 } });
-      fireEvent.change(screen.getByTestId('datepicker'), { target: { value: "2021-09-10" } });
-      fireEvent.change(screen.getByTestId('vat'), { target: { value: "70" } });
-      fireEvent.change(screen.getByTestId('pct'), { target: { value: 20 } });
-      fireEvent.change(screen.getByTestId('commentary'), { target: { value: "Business trip" } });
-
-      // Espionnage de la fonction `update`
-      const billsMock = mockStore.bills();
-      const updateSpy = jest.spyOn(billsMock, 'update');
-
-      const form = screen.getByTestId("form-new-bill");
-      form.addEventListener("submit", newBill.handleSubmit);
-      fireEvent.submit(form);
-
-      console.log("Submit fired");
-
-      // Vérifie que la fonction `update` a été appelée
-      await new Promise(process.nextTick); // Assurez-vous que la promesse a eu le temps de se résoudre
-
-      expect(updateSpy).toHaveBeenCalled();
-
-      // Vérifie la navigation vers la page des bills
       expect(onNavigate).toHaveBeenCalledWith(ROUTES_PATH['Bills']);
     });
   });

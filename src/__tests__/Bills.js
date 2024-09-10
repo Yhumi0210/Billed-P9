@@ -66,7 +66,7 @@ describe("Given I am connected as an employee", () => {
         })
     );
   });
-  // et restaure tous les mocks à leurs états d'origine pour que tous les tests soient isolés (pas indispensable)
+  // restaure tous les mocks à leurs états d'origine pour que tous les tests soient isolés (pas indispensable)
   afterEach(() => {
     jest.restoreAllMocks();
   });
@@ -96,7 +96,8 @@ describe("Given I am connected as an employee", () => {
       const datesSorted = [...dates].sort(antiChrono);
       expect(dates).toEqual(datesSorted);
     });
-    test("handleClickNewBill should navigate to NewBill page", () => {
+
+    test("Then could navigate to NewBill page", () => {
       const onNavigate = jest.fn();
       const bills = new Bills({
         document,
@@ -109,7 +110,7 @@ describe("Given I am connected as an employee", () => {
       expect(onNavigate).toHaveBeenCalledWith(ROUTES_PATH["NewBill"]);
     });
 
-    test("handleClickIconEye should display the modal with bill image", () => {
+    test("Eye icon should display the modal with bill image", () => {
       $.fn.modal = jest.fn();
 
       document.body.innerHTML = `
