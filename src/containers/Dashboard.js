@@ -5,6 +5,12 @@ import { ROUTES_PATH } from '../constants/routes.js'
 import USERS_TEST from '../constants/usersTest.js'
 import Logout from "./Logout.js"
 
+/**
+ * Filter bills by status
+ * @param {Array} data - Array of bills
+ * @param {String} status - Status of bills
+ * @returns {Array} Array of bills
+ */
 export const filteredBills = (data, status) => {
 
   return (data && data.length) ?
@@ -134,43 +140,70 @@ export default class {
   }
 
 
-  // fix : Bug Hunt
-  hideForm = () => {
-    $('.dashboard-right-container div').html(`
-        <div id="big-billed-icon" data-testid="big-billed-icon"> ${BigBilledIcon} </div>
-      `)
-    $('.vertical-navbar').css({ height: '120vh' })
-  }
+  // // fix : autre proposition
+  // hideForm = () => {
+  //   $('.dashboard-right-container div').html(`
+  //       <div id="big-billed-icon" data-testid="big-billed-icon"> ${BigBilledIcon} </div>
+  //     `)
+  //   $('.vertical-navbar').css({ height: '120vh' })
+  // }
+  //
+  // hideBigNavbar = (index) => {
+  //   $(`#arrow-icon${index}`).css({ transform: 'rotate(90deg)'})
+  //   $(`#status-bills-container${index}`)
+  //       .html("")
+  // }
+  //
+  // handleShowTickets(e, bills, index) {
+  //   if (this.counter === undefined || this.index !== index) this.counter = 0
+  //   if (this.index === undefined || this.index !== index) this.index = index
+  //   if (this.counter % 2 === 0) {
+  //     [1, 2, 3].forEach(elem => {
+  //       this.hideForm(elem)
+  //       this.hideBigNavbar(elem)
+  //     })
+  //     $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)'})
+  //     $(`#status-bills-container${this.index}`)
+  //       .html(cards(filteredBills(bills, getStatus(this.index))))
+  //     this.counter ++
+  //   } else {
+  //     this.hideBigNavbar(this.index)
+  //     this.counter ++
+  //   }
+  //
+  //   bills.forEach(bill => {
+  //     $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+  //   })
+  //
+  //   return bills
+  //
+  // }
 
-  hideBigNavbar = (index) => {
-    $(`#arrow-icon${index}`).css({ transform: 'rotate(90deg)'})
-    $(`#status-bills-container${index}`)
-        .html("")
-  }
 
   handleShowTickets(e, bills, index) {
-    if (this.counter === undefined || this.index !== index) this.counter = 0
-    if (this.index === undefined || this.index !== index) this.index = index
+    if (this.counter === undefined || this.index !== index) this.counter = 0;
+    if (this.index === undefined || this.index !== index) this.index = index;
     if (this.counter % 2 === 0) {
-      [1, 2, 3].forEach(elem => {
-        this.hideForm(elem)
-        this.hideBigNavbar(elem)
-      })
-      $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)'})
-      $(`#status-bills-container${this.index}`)
-        .html(cards(filteredBills(bills, getStatus(this.index))))
-      this.counter ++
+      $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)' });
+      $(`#status-bills-container${this.index}`).html(
+          cards(filteredBills(bills, getStatus(this.index)))
+      );
+      this.counter++;
     } else {
-      this.hideBigNavbar(this.index)
-      this.counter ++
+      $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)' });
+      $(`#status-bills-container${this.index}`).html('');
+      this.counter++;
     }
 
-    bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
-    })
+    // fix : un mauvais querySelector était utilisé dans le code originel
+    bills.forEach((bill) => {
+      // $(`#open-bill${bill.id}`).click((e) => // ORIGINAL
+      $(`#status-bills-container${index} #open-bill${bill.id}`).click((e) =>
+          this.handleEditTicket(e, bill, bills)
+      );
+    });
 
-    return bills
-
+    return bills;
   }
 
   getBillsAllUsers = () => {
